@@ -14,6 +14,7 @@ function Form() {
     password: '',
     url: '',
   });
+  const [showForm, setShowForm] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,57 +45,71 @@ function Form() {
       password: '',
       url: '',
     });
+    // Esconder o formulário
+    setShowForm(false);
   };
 
+  const handleShowForm = () => {
+    // Exibir o formulário
+    setShowForm(true);
+  };
+
+  if (showForm) {
+    return (
+      <form onSubmit={ handleSubmit }>
+        <div>
+          <label htmlFor="serviceName">Nome do serviço:</label>
+          <input
+            type="text"
+            id="serviceName"
+            name="serviceName"
+            value={ formData.serviceName }
+            onChange={ handleChange }
+          />
+        </div>
+        <div>
+          <label htmlFor="login">Login:</label>
+          <input
+            type="text"
+            id="login"
+            name="login"
+            value={ formData.login }
+            onChange={ handleChange }
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Senha:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={ formData.password }
+            onChange={ handleChange }
+          />
+        </div>
+        <div>
+          <label htmlFor="url">URL:</label>
+          <input
+            type="text"
+            id="url"
+            name="url"
+            value={ formData.url }
+            onChange={ handleChange }
+          />
+        </div>
+        <div>
+          <button type="submit">Cadastrar</button>
+          <button type="button" onClick={ handleCancel }>
+            Cancelar
+          </button>
+        </div>
+      </form>
+    );
+  }
   return (
-    <form onSubmit={ handleSubmit }>
-      <div>
-        <label htmlFor="serviceName">Nome do serviço:</label>
-        <input
-          type="text"
-          id="serviceName"
-          name="serviceName"
-          value={ formData.serviceName }
-          onChange={ handleChange }
-        />
-      </div>
-      <div>
-        <label htmlFor="login">Login:</label>
-        <input
-          type="text"
-          id="login"
-          name="login"
-          value={ formData.login }
-          onChange={ handleChange }
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Senha:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={ formData.password }
-          onChange={ handleChange }
-        />
-      </div>
-      <div>
-        <label htmlFor="url">URL:</label>
-        <input
-          type="text"
-          id="url"
-          name="url"
-          value={ formData.url }
-          onChange={ handleChange }
-        />
-      </div>
-      <div>
-        <button type="submit">Cadastrar</button>
-        <button type="button" onClick={ handleCancel }>
-          Cancelar
-        </button>
-      </div>
-    </form>
+    <button type="button" onClick={ handleShowForm }>
+      Cadastrar nova senha
+    </button>
   );
 }
 
