@@ -14,6 +14,8 @@ function Form() {
     password: '',
     url: '',
   });
+
+  const [isFormValid, setIsFormValid] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +55,25 @@ function Form() {
     // Exibir o formulário
     setShowForm(true);
   };
+
+  const validateForm = () => {
+    const { serviceName, login, password } = formData;
+
+    const isServiceNameValid = serviceName.trim() !== '';
+    const isLoginValid = login.trim() !== '';
+    const isPasswordValid = password.length >= 8
+      && password.length <= 16
+      && /\d/.test(password)
+      && /[a-zA-Z]/.test(password)
+      && /[!@#$%^&*]/.test(password);
+
+    setIsFormValid(isServiceNameValid && isLoginValid && isPasswordValid);
+  };
+
+  // Atualiza a validação do formulário sempre que o formulário muda
+  React.useEffect(() => {
+    validateForm();
+  }, [formData]);
 
   if (showForm) {
     return (
@@ -98,7 +119,9 @@ function Form() {
           />
         </div>
         <div>
-          <button type="submit">Cadastrar</button>
+          <button type="submit" disabled={ !isFormValid }>
+            Cadastrar
+          </button>
           <button type="button" onClick={ handleCancel }>
             Cancelar
           </button>
