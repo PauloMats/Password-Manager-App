@@ -75,6 +75,14 @@ function Form() {
     validateForm();
   }, [formData]);
 
+  const renderPasswordCheck = (message: string, isValid: boolean) => {
+    return (
+      <p className={ isValid ? 'valid-password-check' : 'invalid-password-check' }>
+        {message}
+      </p>
+    );
+  };
+
   if (showForm) {
     return (
       <form onSubmit={ handleSubmit }>
@@ -107,6 +115,16 @@ function Form() {
             value={ formData.password }
             onChange={ handleChange }
           />
+          {renderPasswordCheck(
+            'Possuir 8 ou mais caracteres',
+            formData.password.length >= 8,
+          )}
+          {renderPasswordCheck(
+            'Possuir até 16 caracteres',
+            formData.password.length <= 16,
+          )}
+          {renderPasswordCheck('Possuir letras e números', /\d/.test(formData.password) && /[a-zA-Z]/.test(formData.password))}
+          {renderPasswordCheck('Possuir algum caractere especial', /[!@#$%^&*]/.test(formData.password))}
         </div>
         <div>
           <label htmlFor="url">URL:</label>
