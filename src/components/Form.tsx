@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
+import './form.css';
 
 type FormData = {
+  serviceName: string;
+  login: string;
+  password: string;
+  url: string;
+};
+
+type Service = {
+  id: number;
   serviceName: string;
   login: string;
   password: string;
@@ -17,6 +26,7 @@ function Form() {
 
   const [isFormValid, setIsFormValid] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [services, setServices] = useState<Service[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,8 +38,13 @@ function Form() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você pode fazer o que quiser com os dados do formulário
-    console.log(formData);
+    const newService: Service = {
+      id: Date.now(),
+      ...formData,
+    };
+
+    setServices((prevServices) => [...prevServices, newService]);
+
     // Limpar os campos do formulário
     setFormData({
       serviceName: '',
@@ -148,9 +163,32 @@ function Form() {
     );
   }
   return (
-    <button type="button" onClick={ handleShowForm }>
-      Cadastrar nova senha
-    </button>
+    <div>
+      {services.length === 0 ? (
+        <p>Nenhuma senha cadastrada</p>
+      ) : (
+        <ul>
+          {services.map((service) => (
+            <li key={ service.id }>
+              <a href={ service.url } target="_blank" rel="noopener noreferrer">
+                {service.serviceName}
+              </a>
+              <p>
+                Login:
+                {service.login}
+              </p>
+              <p>
+                Senha:
+                {service.password}
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+      <button type="button" onClick={ handleShowForm }>
+        Cadastrar nova senha
+      </button>
+    </div>
   );
 }
 
