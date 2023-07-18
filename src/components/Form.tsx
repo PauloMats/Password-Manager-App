@@ -152,7 +152,7 @@ function Form() {
           />
         </div>
         <div>
-          <button type="submit" disabled={ !isFormValid }>
+          <button type="submit" disabled={ !isFormValid } onClick={ handleCancel }>
             Cadastrar
           </button>
           <button type="button" onClick={ handleCancel }>
