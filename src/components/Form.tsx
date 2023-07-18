@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-/* import './form.css'; */
+import './form.css';
 
 type FormData = {
   serviceName: string;
@@ -191,4 +191,5 @@ function Form() {
     </div>
   );
 }
+
 export default Form;
