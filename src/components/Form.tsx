@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './form.css';
 
 type FormData = {
@@ -71,7 +71,7 @@ function Form() {
     setShowForm(true);
   };
 
-  const validateForm = () => {
+  const validateForm = React.useCallback(() => {
     const { serviceName, login, password } = formData;
 
     const isServiceNameValid = serviceName.trim() !== '';
@@ -83,12 +83,12 @@ function Form() {
       && /[!@#$%^&*]/.test(password);
 
     setIsFormValid(isServiceNameValid && isLoginValid && isPasswordValid);
-  };
+  }, [formData]);
 
   // Atualiza a validação do formulário sempre que o formulário muda
   React.useEffect(() => {
     validateForm();
-  }, [formData]);
+  }, [validateForm]);
 
   const renderPasswordCheck = (message: string, isValid: boolean) => {
     return (
