@@ -54,6 +54,10 @@ function Form() {
     });
   };
 
+  const handleRemoveService = (id: number) => {
+    setServices((prevServices) => prevServices.filter((service) => service.id !== id));
+  };
+
   const handleCancel = () => {
     // Limpar os campos do formulário
     setFormData({
@@ -162,29 +166,43 @@ function Form() {
       </form>
     );
   }
+
+  const renderServices = () => {
+    if (services.length === 0) {
+      return <p>Nenhuma senha cadastrada</p>;
+    }
+
+    return (
+      <ul>
+        {services.map((service) => (
+          <li key={ service.id }>
+            <a href={ service.url } target="_blank" rel="noopener noreferrer">
+              {service.serviceName}
+            </a>
+            <p>
+              Login:
+              {service.login}
+            </p>
+            <p>
+              Senha:
+              {service.password}
+            </p>
+            <button
+              type="button"
+              data-testid="remove-btn"
+              onClick={ () => handleRemoveService(service.id) }
+            >
+              Remover
+            </button>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <div>
-      {services.length === 0 ? (
-        <p>Nenhuma senha cadastrada</p>
-      ) : (
-        <ul>
-          {services.map((service) => (
-            <li key={ service.id }>
-              <a href={ service.url } target="_blank" rel="noopener noreferrer">
-                {service.serviceName}
-              </a>
-              <p>
-                Login:
-                {service.login}
-              </p>
-              <p>
-                Senha:
-                {service.password}
-              </p>
-            </li>
-          ))}
-        </ul>
-      )}
+      {renderServices()}
       <button type="button" onClick={ handleShowForm }>
         Cadastrar nova senha
       </button>
