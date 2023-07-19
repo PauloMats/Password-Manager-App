@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import './form.css';
 
 type FormData = {
@@ -27,6 +27,7 @@ function Form() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [services, setServices] = useState<Service[]>([]);
+  const [hidePasswords, setHidePasswords] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -73,6 +74,10 @@ function Form() {
   const handleShowForm = () => {
     // Exibir o formulário
     setShowForm(true);
+  };
+
+  const handleToggleHidePasswords = () => {
+    setHidePasswords((prevHidePasswords) => !prevHidePasswords); // Inverte o valor do estado hidePasswords
   };
 
   const validateForm = React.useCallback(() => {
@@ -181,12 +186,15 @@ function Form() {
             </a>
             <p>
               Login:
+              {' '}
               {service.login}
             </p>
-            <p>
+            {/* Renderiza as senhas de forma condicional */}
+            {hidePasswords ? <p>******</p> : <p>
               Senha:
+              {' '}
               {service.password}
-            </p>
+            </p>}
             <button
               type="button"
               data-testid="remove-btn"
@@ -202,6 +210,15 @@ function Form() {
 
   return (
     <div>
+      {/* Checkbox para esconder/mostrar senhas */}
+      <label>
+        <input
+          type="checkbox"
+          checked={ hidePasswords }
+          onChange={ handleToggleHidePasswords }
+        />
+        Esconder senhas
+      </label>
       {renderServices()}
       <button type="button" onClick={ handleShowForm }>
         Cadastrar nova senha
@@ -209,5 +226,4 @@ function Form() {
     </div>
   );
 }
-
 export default Form;
