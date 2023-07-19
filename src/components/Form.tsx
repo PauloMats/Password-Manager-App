@@ -189,12 +189,15 @@ function Form() {
               {' '}
               {service.login}
             </p>
-            {/* Renderiza as senhas de forma condicional */}
-            {hidePasswords ? <p>******</p> : <p>
-              Senha:
-              {' '}
-              {service.password}
-            </p>}
+            {hidePasswords ? (
+              <p>******</p>
+            ) : (
+              <p>
+                Senha:
+                {' '}
+                {service.password}
+              </p>
+            )}
             <button
               type="button"
               data-testid="remove-btn"
